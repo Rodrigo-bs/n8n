@@ -31,6 +31,16 @@ docker run -it --rm --name n8n -p 5678:5678 -v n8n_data:/home/node/.n8n docker.n
 
 Access the editor at http://localhost:5678
 
+### Scaling for Production
+
+For production deployments requiring horizontal scalability and isolated workflow execution:
+
+📖 **[Scaling Documentation](./docker/docs/SCALING.md)** - Complete guide for running workflows in isolation with queue mode and worker instances
+
+Ready-to-use configurations:
+- [Queue Mode Setup](./docker/docker-compose.queue-mode.yml)
+- [Queue Mode with Task Runners](./docker/docker-compose.queue-mode-with-runners.yml)
+
 ## Resources
 
 - 📚 [Documentation](https://docs.n8n.io)
