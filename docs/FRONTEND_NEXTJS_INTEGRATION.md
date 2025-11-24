@@ -2,6 +2,10 @@
 
 This guide explains how to run the n8n frontend within a Next.js application while isolating the backend in a separate repository.
 
+> **Quick Start**: If you want to get started immediately, see the [Quick Start Guide](./QUICKSTART_NEXTJS.md).
+> 
+> **Visual Learner?** Check out the [Architecture Diagrams](./ARCHITECTURE_DIAGRAMS.md) for visual representations of different deployment scenarios.
+
 ## Table of Contents
 
 - [Overview](#overview)
