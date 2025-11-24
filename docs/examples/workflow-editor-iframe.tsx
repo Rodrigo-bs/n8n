@@ -23,7 +23,7 @@ export default function WorkflowEditor() {
           padding: 0,
         }}
         title="n8n Workflow Editor"
-        allow="clipboard-read; clipboard-write"
+        allow="clipboard-read clipboard-write"
       />
     </div>
   );

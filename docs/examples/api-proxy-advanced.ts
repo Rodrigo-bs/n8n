@@ -5,8 +5,12 @@
  * can communicate with the n8n backend while adding custom logic,
  * authentication, or other middleware.
  * 
- * Location: pages/api/n8n/[...path].ts (Pages Router)
- * or app/api/n8n/[...path]/route.ts (App Router)
+ * IMPORTANT: Choose ONE approach based on your Next.js version:
+ * - Pages Router (Next.js 12.x): Use the default handler below
+ * - App Router (Next.js 13+): See the separate route handler examples at the bottom
+ * 
+ * Location for Pages Router: pages/api/n8n/[...path].ts
+ * Location for App Router: app/api/n8n/[...path]/route.ts (in a separate file)
  */
 
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -77,6 +81,22 @@ export default async function handler(
 }
 
 /**
+ * ============================================================================
+ * App Router (Next.js 13+) Implementation
+ * ============================================================================
+ * 
+ * Save the following code in a SEPARATE file:
+ * app/api/n8n/[...path]/route.ts
+ * 
+ * DO NOT mix Pages Router and App Router code in the same file.
+ */
+
+/*
+// File: app/api/n8n/[...path]/route.ts
+
+const N8N_BACKEND_URL = process.env.N8N_BACKEND_URL || 'http://localhost:5678';
+
+/**
  * For App Router (Next.js 13+), use this pattern:
  */
 export async function GET(
@@ -137,3 +157,5 @@ export async function POST(
 }
 
 // Add other HTTP methods as needed (PUT, PATCH, DELETE, etc.)
+
+*/

@@ -26,7 +26,7 @@ docker run -d \
 **OR using npm:**
 
 ```bash
-npx n8n@latest
+N8N_EDITOR_BASE_URL=http://localhost:3000 npx n8n@latest
 # Backend runs on http://localhost:5678
 ```
 

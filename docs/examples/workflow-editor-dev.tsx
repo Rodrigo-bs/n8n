@@ -27,7 +27,7 @@ export default function WorkflowEditorDev() {
           padding: 0,
         }}
         title="n8n Workflow Editor (Development)"
-        allow="clipboard-read; clipboard-write"
+        allow="clipboard-read clipboard-write"
       />
     </div>
   );
@@ -69,7 +69,7 @@ export function WorkflowEditorDevWithControls() {
             padding: 0,
           }}
           title="n8n Workflow Editor (Development)"
-          allow="clipboard-read; clipboard-write"
+          allow="clipboard-read clipboard-write"
         />
       </div>
     </div>

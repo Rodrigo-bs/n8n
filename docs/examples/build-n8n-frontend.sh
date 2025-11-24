@@ -49,8 +49,15 @@ echo ""
 echo "Building frontend..."
 cd packages/frontend/editor-ui
 
-# Set the backend API URL and build
-cross-env VUE_APP_URL_BASE_API="$BACKEND_API_URL" pnpm build
+# Check if cross-env is available
+if command -v cross-env >/dev/null 2>&1; then
+  # Use cross-env if available
+  cross-env VUE_APP_URL_BASE_API="$BACKEND_API_URL" pnpm build
+else
+  # Fallback to direct environment variable setting
+  echo "Note: cross-env not found in PATH, using direct environment variable"
+  VUE_APP_URL_BASE_API="$BACKEND_API_URL" pnpm build
+fi
 
 # Navigate back to original directory
 cd -
