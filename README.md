@@ -39,6 +39,7 @@ Access the editor at http://localhost:5678
 - 🤖 [AI & LangChain Guide](https://docs.n8n.io/advanced-ai/)
 - 👥 [Community Forum](https://community.n8n.io)
 - 📖 [Community Tutorials](https://community.n8n.io/c/tutorials/28)
+- 🔗 [Frontend Integration with Next.js](./docs/FRONTEND_NEXTJS_INTEGRATION.md)
 
 ## Support
 

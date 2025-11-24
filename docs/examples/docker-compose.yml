@@ -1,0 +1,120 @@
+# Docker Compose Example for n8n Backend (Isolated from Next.js Frontend)
+#
+# This docker-compose file sets up the n8n backend that will be accessed
+# by your Next.js application hosting the frontend.
+#
+# Usage:
+#   docker-compose up -d
+#
+# The backend will be available at http://localhost:5678
+
+version: '3.8'
+
+services:
+  # n8n Backend
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    container_name: n8n-backend
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      # Frontend URL (your Next.js application)
+      - N8N_EDITOR_BASE_URL=http://localhost:3000
+      
+      # Backend URLs
+      - WEBHOOK_URL=http://localhost:5678/
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      
+      # WebSocket configuration for real-time updates
+      - N8N_PUSH_BACKEND=websocket
+      
+      # Database configuration (using PostgreSQL for production)
+      # For SQLite (simpler, for development):
+      # - DB_TYPE=sqlite
+      
+      # For PostgreSQL (recommended for production):
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=postgres
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=n8n
+      - DB_POSTGRESDB_USER=n8n
+      - DB_POSTGRESDB_PASSWORD=n8n_password
+      
+      # Execution configuration
+      - EXECUTIONS_MODE=regular
+      # For queue mode (scalable):
+      # - EXECUTIONS_MODE=queue
+      # - QUEUE_BULL_REDIS_HOST=redis
+      # - QUEUE_BULL_REDIS_PORT=6379
+      
+      # Security (optional)
+      # - N8N_BASIC_AUTH_ACTIVE=true
+      # - N8N_BASIC_AUTH_USER=admin
+      # - N8N_BASIC_AUTH_PASSWORD=your_secure_password
+      
+      # Timezone
+      - GENERIC_TIMEZONE=America/New_York
+      
+      # Logging
+      - N8N_LOG_LEVEL=info
+      
+      # Execution data saving
+      - EXECUTIONS_DATA_SAVE_ON_ERROR=all
+      - EXECUTIONS_DATA_SAVE_ON_SUCCESS=all
+      - EXECUTIONS_DATA_SAVE_MANUAL_EXECUTIONS=true
+      
+    volumes:
+      # Persist n8n data
+      - n8n_data:/home/node/.n8n
+      
+    depends_on:
+      - postgres
+    networks:
+      - n8n-network
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: n8n-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=n8n
+      - POSTGRES_PASSWORD=n8n_password
+      - POSTGRES_DB=n8n
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - n8n-network
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U n8n']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis (optional, for queue mode)
+  # Uncomment if using EXECUTIONS_MODE=queue
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: n8n-redis
+  #   restart: unless-stopped
+  #   volumes:
+  #     - redis_data:/data
+  #   networks:
+  #     - n8n-network
+  #   healthcheck:
+  #     test: ['CMD', 'redis-cli', 'ping']
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+
+volumes:
+  n8n_data:
+  postgres_data:
+  # redis_data:
+
+networks:
+  n8n-network:
+    driver: bridge
