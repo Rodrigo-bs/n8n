@@ -22,6 +22,7 @@ n8n is a workflow automation platform that gives technical teams the flexibility
   - [Demo](#demo)
   - [Available integrations](#available-integrations)
   - [Documentation](#documentation)
+  - [Scaling n8n](#scaling-n8n)
   - [Start n8n in Docker](#start-n8n-in-docker)
   - [Use with PostgreSQL](#use-with-postgresql)
   - [Passing sensitive data using files](#passing-sensitive-data-using-files)
@@ -51,6 +52,39 @@ n8n has 200+ different nodes to automate workflows. A full list can be found at 
 The official n8n documentation can be found at [https://docs.n8n.io](https://docs.n8n.io).
 
 Additional information and example workflows are available on the website at [https://n8n.io](https://n8n.io).
+
+## Scaling n8n
+
+For production deployments that require horizontal scalability and isolated workflow execution, n8n supports **queue mode** with separate worker instances.
+
+📖 **[Complete Scaling Guide](../../docs/SCALING.md)** - Learn how to:
+- Run workflows in isolated Docker containers
+- Scale horizontally with multiple worker instances
+- Set up high availability with multi-main instances
+- Use task runners for secure code execution
+- Monitor and troubleshoot your scaled deployment
+
+🚀 **Quick Start with Queue Mode:**
+
+```bash
+# Download the example configuration
+curl -o docker-compose.queue-mode.yml https://raw.githubusercontent.com/n8n-io/n8n/master/docker/docker-compose.queue-mode.yml
+
+# Generate encryption key
+openssl rand -base64 32
+
+# Update docker-compose.queue-mode.yml with the encryption key
+
+# Start n8n with workers
+docker compose -f docker-compose.queue-mode.yml up -d
+
+# Scale workers as needed
+docker compose -f docker-compose.queue-mode.yml up -d --scale n8n_worker=5
+```
+
+**Example Configurations:**
+- [Basic Queue Mode](../../docker-compose.queue-mode.yml) - 1 main + 2 workers
+- [Queue Mode with Task Runners](../../docker-compose.queue-mode-with-runners.yml) - Full isolation setup
 
 ## Start n8n in Docker
 
